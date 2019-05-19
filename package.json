@@ -1,10 +1,10 @@
 {
   "name": "edge.madsstorm.dk",
   "version": "1.0.0",
-  "description": "",
+  "description": "edge.madsstorm.dk",
   "main": "worker.js",
-  "scripts": {
-    "test": "npm run unit"
+  "scripts" : {
+    "test" : "echo \"No tests\""
   },
   "repository": {
     "type": "git",
