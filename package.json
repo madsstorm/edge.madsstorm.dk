@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "edge.madsstorm.dk",
   "main": "worker.js",
-  "scripts" : {
-    "test" : "echo \"No tests\""
+  "scripts": {
+    "test": "echo \"No tests\""
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/madsstorm/edge.madsstorm.dk/issues"
   },
-  "homepage": "https://github.com/madsstorm/edge.madsstorm.dk#readme"
+  "homepage": "https://github.com/madsstorm/edge.madsstorm.dk#readme",
+  "dependencies": {
+    "serverless": "^1.42.3",
+    "serverless-cloudflare-workers": "^1.2.0"
+  }
 }
