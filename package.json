@@ -4,6 +4,7 @@
   "description": "",
   "main": "worker.js",
   "scripts": {
+    "test": "npm run unit"
   },
   "repository": {
     "type": "git",
