@@ -3,7 +3,7 @@ node_js:
   - node
   
 deploy:
-  - provider: script
+  provider: script
   script: sls deploy
   skip_cleanup: true
   on:
