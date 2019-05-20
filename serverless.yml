@@ -23,4 +23,4 @@ functions:
     resources:
       kv:
         - variable: kvStorage
-            namespace: edgeNamespace
+          namespace: edgeNamespace
