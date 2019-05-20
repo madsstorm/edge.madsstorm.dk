@@ -40,7 +40,7 @@ async function getBody(country) {
     let greeting = await kvStorage.get(greetingKey);
 
     if(!greeting) {
-        let greeting = 'Hello';
+        greeting = 'Hello';
         let language = details.languages[0].iso639_1;
         let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + language + '&source=en&key=' + cloudTranslationApiKey;
 
