@@ -20,23 +20,26 @@ async function handle(event) {
 }
 
 async function getBody(country) {
-    const flagUrlKey = "flagUrl" + country;
-    const nativeNameKey = "nativeName" + country;
+    // const flagUrlKey = "flagUrl" + country;
+    // const nativeNameKey = "nativeName" + country;
+    const countryKey = 'country' + country;
 
-    let flagUrl = await kvStorage.get(flagUrlKey);
-    let nativeName = await kvStorage.get(nativeNameKey);
+    // let flagUrl = await kvStorage.get(flagUrlKey);
+    // let nativeName = await kvStorage.get(nativeNameKey);
+    let details = await kvStorage.get(countryKey, "json")
 
-    if(flagUrl == null || nativeName == null) {
-        const response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
+    if(!details) {
+        let response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
         details = await response.json()
 
-        flagUrl = details.flag;
-        nativeName = details.nativeName;
+        // flagUrl = details.flag;
+        // nativeName = details.nativeName;
 
-        kvStorage.put(flagUrlKey, flagUrl, { expirationTtl: 60 })
-        kvStorage.put(nativeNameKey, nativeName, { expirationTtl: 60 })
+        // kvStorage.put(flagUrlKey, flagUrl, { expirationTtl: 60 })
+        // kvStorage.put(nativeNameKey, nativeName, { expirationTtl: 60 })
+        kvStorage.put(countryKey, details, { expirationTtl: 60})
     }
 
-    let body = '<a href="/"><div><img src="' + flagUrl + '" style="width:100px;" /><span></div>' + nativeName + '</span></a>'
+    let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /><span></div>' + details.nativeName + '</span></a>'
     return body
 }
