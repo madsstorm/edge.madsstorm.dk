@@ -16,8 +16,6 @@ addEventListener('fetch', event => {
   
     result = result + '</span></html>';
   
-    let response = new Response(result);
-  
     const responseInit = {
         headers: {'Content-Type': 'text/html'}
       };
