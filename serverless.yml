@@ -11,10 +11,6 @@ plugins:
   - serverless-cloudflare-workers
   
 functions:
-  resources:
-    kv:
-      variable: kvStorage
-      namespace: edgeNamespace
   worker:
     worker: worker
     script: worker
@@ -22,3 +18,7 @@ functions:
      - http:
          url: edge.madsstorm.dk/*
          method: GET
+    resources:
+      kv:
+        - variable: kvStorage
+          namespace: edgeNamespace
