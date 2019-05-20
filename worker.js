@@ -27,7 +27,7 @@ async function getBody(country) {
     if(details == null) {  
         const response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
         details = await response.json()
-        kvStorage.put(storageKey, details, {expirationTtl: 3600})
+        kvStorage.put(storageKey, details, {expirationTtl: 120})
     }
 
     let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /><span></div>' + details.nativeName + '</span></a>'
