@@ -18,3 +18,8 @@ functions:
      - http:
          url: edge.madsstorm.dk/*
          method: GET
+    resources:
+      kv:
+        namespace:
+          - variable: kvStorage
+            namespace: edge-madsstorm-kv-namespace
