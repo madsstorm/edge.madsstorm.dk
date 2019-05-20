@@ -7,36 +7,26 @@
 addEventListener('fetch', event => {
 
     // In the event of an uncaught exception, fail open as if the worker did not exist
-    // event.passThroughOnException()
+    event.passThroughOnException()
    
     event.respondWith(handle(event))
 })
   
 async function handle(event) {
     const responseInit = { headers: {'content-type':'text/html'} }
+
     let body = await getBody(event.request.headers.get('CF-IPCountry'))
-    let response = new Response(body, responseInit)
-    return response
+
+    return new Response(body, responseInit)
 }
 
 async function getBody(country) {
-    // const flagUrlKey = "flagUrl" + country;
-    // const nativeNameKey = "nativeName" + country;
     const countryKey = 'country' + country;
-
-    // let flagUrl = await kvStorage.get(flagUrlKey);
-    // let nativeName = await kvStorage.get(nativeNameKey);
+    
     let details = await kvStorage.get(countryKey, "json")
-
     if(!details) {
         let response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
         details = await response.json()
-
-        // flagUrl = details.flag;
-        // nativeName = details.nativeName;
-
-        // kvStorage.put(flagUrlKey, flagUrl, { expirationTtl: 60 })
-        // kvStorage.put(nativeNameKey, nativeName, { expirationTtl: 60 })
         kvStorage.put(countryKey, details, { expirationTtl: 60})
     }
 
