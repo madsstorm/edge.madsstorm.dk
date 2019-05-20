@@ -5,13 +5,13 @@ addEventListener('fetch', event => {
     let result = '<html><h1>The Edge</h1><span>';
     
     if(countryCode === 'DK') {
-      result = result + 'Velkommen!';
+      result = result + 'Velkommen!!';
     } else if(countryCode === 'DE') {
-    result = result + 'Willkommen!';
+    result = result + 'Willkommen!!';
     } else if(countryCode === 'ES') {
-    result = result + 'Hola!';
+    result = result + 'Hola!!';
     } else {
-     result = result + 'Welcome!'; 
+     result = result + 'Welcome!!'; 
     }
   
     result = result + '</span></html>';
