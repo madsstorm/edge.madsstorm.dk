@@ -13,13 +13,13 @@ addEventListener('fetch', event => {
 })
   
 async function handle(event) {
-    const responseInit = { headers: {'content-type':'text/html','mads':'hansen'}}  
+    const responseInit = { headers: {'content-type':'text/html'} }
     let response = new Response(getBody(event.request.cf.country), responseInit)
     return response
 }
 
 function getBody(country) {
-    let body = '<h1>The Edge</h1><img src="https://www.countryflags.io/' + country + '/shiny/64.png" />'
+    let body = '<a href="/"><h1>The Edge</h1></a><img src="https://www.countryflags.io/' + country + '/shiny/64.png" />'
 
     return body
 }
