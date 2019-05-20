@@ -13,8 +13,15 @@ plugins:
 functions:
   welcome-to-the-edge:
     worker: welcome
-    script: worker
+    script: welcome
     events:
      - http:
          url: edge.madsstorm.dk/*
+         method: GET
+  header-manipulation:
+    worker: headers
+    script: headers
+    events:
+     - http:
+         url: madsstorm.dk/*
          method: GET
