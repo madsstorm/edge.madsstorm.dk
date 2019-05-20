@@ -20,5 +20,5 @@ functions:
          method: GET
     resources:
       kv:
-        - variable: kvStorage
-          namespace: edge-madsstorm-kv-namespace
+        variable: kvStorage
+        namespace: edgeMadsstormNamespace
