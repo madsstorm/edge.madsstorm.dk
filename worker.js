@@ -36,7 +36,7 @@ async function getBody(country) {
     }
 
     let greeting = 'Hello';
-    let language = 'es';
+    let language = details.languages[0].iso639_1;
     let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + language + '&source=en&key=' + cloudTranslationApiKey;
 
     let translationResponse = await fetch(translationUrl);
@@ -48,6 +48,6 @@ async function getBody(country) {
         }
     }
 
-    let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /><span></div>' + details.nativeName + '</span></a>';
+    let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /></div></a><span>' + greeting + '</span>';
     return body;
 };
