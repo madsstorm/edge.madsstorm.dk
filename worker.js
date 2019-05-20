@@ -13,9 +13,13 @@ addEventListener('fetch', event => {
 })
   
 async function handle(request) {
-    let response = await fetch(request);
-    response = new Response(response.body, response);
+    let response = new Response(getBody());
     response.headers.set('Mads', 'Madsen2');
     response.headers.set('Hans', 'Hansen5');
     return response;
+}
+
+function getBody() {
+    let body = "<html><head><title>The Edge</title></head><h1>The Edge</h1></html>";
+    return body;
 }
