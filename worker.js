@@ -20,13 +20,13 @@ async function handle(event) {
 }
 
 async function getBody(country) {
-    const flagUrlKey = "flagUrl-" + country;
-    const nativeNameKey = "nativeName-" + country;
+    const flagUrlKey = "flagUrl" + country;
+    const nativeNameKey = "nativeName" + country;
 
     let flagUrl = await kvStorage.get(flagUrlKey);
     let nativeName = await kvStorage.get(nativeNameKey);
 
-    if(!flagUrl || !nativeName) {
+    if(flagUrl == null || nativeName == null) {
         const response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
         details = await response.json()
 
