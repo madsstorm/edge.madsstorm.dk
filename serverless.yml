@@ -18,8 +18,8 @@ functions:
       cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
     events:
       - http:
-        url: edge.madsstorm.dk/*
-        method: GET
+          url: edge.madsstorm.dk/*
+          method: GET
     resources:
       kv:
         - variable: kvStorage
