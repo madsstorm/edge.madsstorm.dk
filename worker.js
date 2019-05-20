@@ -20,10 +20,9 @@ async function handle(event) {
 }
 
 async function getBody(country) {
-    let countryDetails = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
+    const response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
+    let details = await response.json()
 
-    return countryDetails.toString()
-
-    let body = '<a href="/"><h1>The Edge</h1></a><img src="' + countryDetails.flag + '" />'
+    let body = '<a href="/"><h1>The Edge</h1></a><img src="' + details.flag + '" />'
     return body
 }
