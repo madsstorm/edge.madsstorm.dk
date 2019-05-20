@@ -5,7 +5,9 @@ service:
     zoneId: ${env:CLOUDFLARE_ZONE_ID}
   
 provider:
-  name: cloudflare 
+  name: cloudflare
+  environment:
+    cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
   
 plugins:
   - serverless-cloudflare-workers
@@ -22,5 +24,3 @@ functions:
       kv:
         - variable: kvStorage
             namespace: edgeNamespace
-    environment:
-      cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
