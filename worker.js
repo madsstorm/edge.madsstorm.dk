@@ -22,12 +22,12 @@ async function handle(event) {
 
 async function getBody(country) {
     const countryKey = 'country' + country;
-    
+
     let details = await kvStorage.get(countryKey, "json")
     if(!details) {
         let response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
         details = await response.json()
-        kvStorage.put(countryKey, details, { expirationTtl: 60})
+        kvStorage.put(countryKey, JSON.stringify(details), { expirationTtl: 60})
     }
 
     let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /><span></div>' + details.nativeName + '</span></a>'
