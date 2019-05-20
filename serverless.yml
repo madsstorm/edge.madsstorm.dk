@@ -11,9 +11,9 @@ plugins:
   - serverless-cloudflare-workers
   
 functions:
-  header-manipulation:
-    worker: headers
-    script: headers
+  worker:
+    worker: worker
+    script: worker
     events:
      - http:
          url: edge.madsstorm.dk/*
