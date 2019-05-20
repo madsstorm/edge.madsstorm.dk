@@ -20,6 +20,7 @@ addEventListener('fetch', event => {
   
     const responseInit = {
         headers: {'Content-Type': 'text/html'}
-      }
+      };
+
     event.respondWith(new Response(result, responseInit));
 });
