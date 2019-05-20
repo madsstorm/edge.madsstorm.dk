@@ -21,6 +21,7 @@ async function handle(event) {
 };
 
 async function getBody(country) {
+    const expiration = 3600;
     const countryKey = 'country' + country;
     const greetingKey = 'greeting' + country;
 
@@ -33,7 +34,7 @@ async function getBody(country) {
         details = await response.json();
 
         // Store country details in KV (JSON string)
-        kvStorage.put(countryKey, JSON.stringify(details), { expirationTtl: 60});
+        kvStorage.put(countryKey, JSON.stringify(details), { expirationTtl: expiration});
     }
 
     // Try get greeting from KV (string)
@@ -54,7 +55,7 @@ async function getBody(country) {
         }
 
         // Store greeting in KV (string)
-        kvStorage.put(greetingKey, greeting, { expirationTtl: 60});
+        kvStorage.put(greetingKey, greeting, { expirationTtl: expiration});
     }
 
     let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /></div></a><span>' + greeting + '</span>';
