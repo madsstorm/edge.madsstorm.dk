@@ -14,6 +14,7 @@ addEventListener('fetch', event => {
   
 async function handle(request) {
     let response = new Response(getBody());
+    response.headers.set('Content-Type', 'text/html');
     response.headers.set('Mads', 'Madsen2');
     response.headers.set('Hans', 'Hansen5');
     return response;
