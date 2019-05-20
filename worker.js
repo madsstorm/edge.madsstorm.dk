@@ -23,10 +23,15 @@ async function handle(event) {
 async function getBody(country) {
     const countryKey = 'country' + country;
 
+    // Try get country details from KV (JSON string) as object
     let details = await kvStorage.get(countryKey, "json")
+
     if(!details) {
+        // "Expensive" external call that we want to cache in KV
         let response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
         details = await response.json()
+
+        // Store country details in KV (JSON string)
         kvStorage.put(countryKey, JSON.stringify(details), { expirationTtl: 60})
     }
 
