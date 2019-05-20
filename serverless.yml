@@ -6,8 +6,6 @@ service:
   
 provider:
   name: cloudflare
-  environment:
-    cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
   
 plugins:
   - serverless-cloudflare-workers
@@ -16,6 +14,8 @@ functions:
   edge-worker:
     worker: edge-worker
     script: worker
+    environment:
+      cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
     events:
       - http:
         url: edge.madsstorm.dk/*
