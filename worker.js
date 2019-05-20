@@ -22,12 +22,12 @@ async function handle(event) {
 async function getBody(country) {
     const storageKey = "countryDetails-" + country;
 
+    // Lookup country details in key value storage
     let details = await kvStorage.get(storageKey)
-
-    if(details == null) {  
+    if(details == null) {
         const response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
         details = await response.json()
-        kvStorage.put(storageKey, details, {expirationTtl: 120})
+        kvStorage.put(storageKey, details, { expirationTtl: 120 })
     }
 
     let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /><span></div>' + details.nativeName + '</span></a>'
