@@ -11,13 +11,13 @@ addEventListener('fetch', event => {
 async function handle1(request) {
     let response = await fetch(request);
     response = new Response(response.body, response); 
-    response.headers.set('Mads', 'Storm');  
+    response.headers.set('Mads', 'Madsen');  
     return response;
 };
   
 async function handle2(request) {
     let response = await fetch(request);
     response = new Response(response.body, response); 
-    response.headers.set('Hansen', 'Hansen');
+    response.headers.set('Hans', 'Hansen');
     return response;
 };
