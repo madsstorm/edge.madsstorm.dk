@@ -1,11 +1,6 @@
 addEventListener('fetch', event => {
     event.passThroughOnException();
-    event.respondWith(handle1(event.request));
-});
-
-addEventListener('fetch', event => {
-    event.passThroughOnException();
-    event.respondWith(handle2(event.request));
+    event.respondWith(handle2(handle1(event.request)));
 });
 
 async function handle1(request) {
