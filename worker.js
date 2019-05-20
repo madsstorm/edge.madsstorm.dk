@@ -9,18 +9,20 @@ addEventListener('fetch', event => {
     // In the event of an uncaught exception, fail open as if the worker did not exist
     event.passThroughOnException()
    
-    event.respondWith(handle(event.request));
+    event.respondWith(handle(event))
 })
   
-async function handle(request) {
-    let response = new Response(getBody());
-    response.headers.set('Content-Type', 'text/html');
-    response.headers.set('Mads', 'Madsen2');
-    response.headers.set('Hans', 'Hansen5');
-    return response;
+async function handle(event) {
+    let responseInit = {}
+    responseInit.headers['Content-Type'] = 'text/html'
+    responseInit.headers['Mads'] = 'Hansen'
+    
+    let response = new Response(getBody(), responseInit)
+
+    return response
 }
 
 function getBody() {
-    let body = "<html><head><title>The Edge</title></head><h1>The Edge</h1></html>";
-    return body;
+    let body = '<html><head><title>The Edge</title></head><h1>The Edge</h1></html>'
+    return body
 }
