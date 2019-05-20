@@ -13,12 +13,8 @@ addEventListener('fetch', event => {
 })
   
 async function handle(event) {
-    let responseInit = {}
-    responseInit.headers['Content-Type'] = 'text/html'
-    responseInit.headers['Mads'] = 'Hansen'
-    
+    const responseInit = { headers: {'content-type':'text/html','mads':'hansen'}}  
     let response = new Response(getBody(), responseInit)
-
     return response
 }
 
