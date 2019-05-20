@@ -11,6 +11,10 @@ plugins:
   - serverless-cloudflare-workers
   
 functions:
-  edge-madsstorm-dk:
-    worker: edge-madsstorm-dk
+  WelcomeToTheEdge:
+    worker: Welcome
     script: worker
+    events:
+     - http:
+         url: edge.madsstorm.dk/*
+         method: GET
