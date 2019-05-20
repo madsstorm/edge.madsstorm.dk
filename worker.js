@@ -40,7 +40,7 @@ async function getBody(country) {
     let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + language + '&source=en&key=' + cloudTranslationApiKey;
 
     let translationResponse = await fetch(translationUrl);
-    let translation = translationResponse.json();
+    let translation = await translationResponse.json();
     if(translation) {
         let translatedGreeting = translation.data.translations[0].translatedText;
         if(translatedGreeting) {
