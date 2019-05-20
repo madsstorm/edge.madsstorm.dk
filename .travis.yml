@@ -4,7 +4,9 @@ node_js:
   
 deploy:
   provider: script
-  script: serverless deploy
+  script:
+    - serverless remove
+    - serverless deploy
   skip_cleanup: true
   on:
     branch: master
