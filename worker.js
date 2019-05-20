@@ -23,6 +23,6 @@ async function getBody(country) {
     const response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
     let details = await response.json()
 
-    let body = '<a href="/"><h1>The Edge</h1></a><img src="' + details.flag + '" />'
+    let body = '<a href="/"><img src="' + details.flag + '" /><span>' + details.nativeName + '</span></a>'
     return body
 }
