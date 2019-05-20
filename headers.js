@@ -1,17 +1,18 @@
 addEventListener('fetch', event => {
     event.passThroughOnException();
-    event.respondWith(handle2(handle1(event.request)));
+
+    let response = await fetch(request);
+
+    event.respondWith(handle2(handle1(response)));
 });
 
-async function handle1(request) {
-    let response = await fetch(request);
+async function handleReponse1(response) {
     response = new Response(response.body, response); 
     response.headers.set('Mads', 'Madsen');  
     return response;
 };
   
-async function handle2(request) {
-    let response = await fetch(request);
+async function handleReponse2(response) {
     response = new Response(response.body, response); 
     response.headers.set('Hans', 'Hansen');
     return response;
