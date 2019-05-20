@@ -7,7 +7,7 @@
 addEventListener('fetch', event => {
 
     // In the event of an uncaught exception, fail open as if the worker did not exist
-    event.passThroughOnException()
+    // event.passThroughOnException()
    
     event.respondWith(handle(event))
 })
