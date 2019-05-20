@@ -43,14 +43,17 @@ async function getBody(country) {
     if(!greeting) {
         greeting = 'Hello';
         let language = details.languages[0].iso639_1;
-        let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + language + '&source=en&key=' + cloudTranslationApiKey;
 
-        let translationResponse = await fetch(translationUrl);
-        let translation = await translationResponse.json();
-        if(translation) {
-            let translatedGreeting = translation.data.translations[0].translatedText;
-            if(translatedGreeting) {
-                greeting = translatedGreeting;
+        if(language != 'en'){
+            let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + language + '&source=en&key=' + cloudTranslationApiKey;
+
+            let translationResponse = await fetch(translationUrl);
+            let translation = await translationResponse.json();
+            if(translation) {
+                let translatedGreeting = translation.data.translations[0].translatedText;
+                if(translatedGreeting) {
+                    greeting = translatedGreeting;
+                }
             }
         }
 
