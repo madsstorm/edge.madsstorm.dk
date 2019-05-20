@@ -14,7 +14,7 @@ addEventListener('fetch', event => {
   
 async function handle(event) {
     const responseInit = { headers: {'content-type':'text/html'} }
-    let body = await getBody(event.request.headers['CF-IPCountry'])
+    let body = await getBody(event.request.headers.get('CF-IPCountry'))
     let response = new Response(body, responseInit)
     return response
 }
