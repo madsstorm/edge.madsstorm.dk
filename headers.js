@@ -1,14 +1,14 @@
 addEventListener('fetch', event => {
     event.passThroughOnException();
 
-    let resp = handleRequest(request);
+    let response = handleRequest(event.request);
 
-    event.respondWith(handleReponse(resp));
+    event.respondWith(handleReponse(response));
 });
 
-async function handleRequest(req)
+async function handleRequest(request)
 {
-    return await fetch(req);
+    return await fetch(request);
 }
 
 async function handleReponse(response) {
