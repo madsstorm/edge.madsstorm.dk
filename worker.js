@@ -13,7 +13,7 @@ addEventListener('fetch', event => {
 })
   
 async function handle(event) {
-    const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
+    const responseInit = { headers: {'content-type':'text/html; charset=UTF-8', 'the-key': cloudTranslationApiKey} };
 
     let body = await getBody(event.request.headers.get('CF-IPCountry'));
 

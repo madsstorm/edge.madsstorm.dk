@@ -15,10 +15,12 @@ functions:
     worker: edge-worker
     script: worker
     events:
-     - http:
-         url: edge.madsstorm.dk/*
-         method: GET
+      - http:
+        url: edge.madsstorm.dk/*
+        method: GET
     resources:
       kv:
         - variable: kvStorage
-          namespace: edgeNamespace
+            namespace: edgeNamespace
+    environment:
+      cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
