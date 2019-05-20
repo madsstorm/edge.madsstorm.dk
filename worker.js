@@ -13,7 +13,7 @@ addEventListener('fetch', event => {
 })
   
 async function handle(event) {
-    const responseInit = { headers: {'content-type':'text/html; charset=UTF-8', 'the-key': cloudTranslationApiKey} };
+    const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
 
     let body = await getBody(event.request.headers.get('CF-IPCountry'));
 
@@ -33,6 +33,19 @@ async function getBody(country) {
 
         // Store country details in KV (JSON string)
         kvStorage.put(countryKey, JSON.stringify(details), { expirationTtl: 60});
+    }
+
+    let greeting = 'Hello';
+    let language = 'es';
+    let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + language + '&source=en&key=' + cloudTranslationApiKey;
+
+    let translationResponse = await fetch(translationUrl);
+    let translation = translationResponse.json();
+    if(translation) {
+        let translatedGreeting = translation.data.translations[0].translatedText;
+        if(translatedGreeting) {
+            greeting = translatedGreeting;
+        }
     }
 
     let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /><span></div>' + details.nativeName + '</span></a>';
