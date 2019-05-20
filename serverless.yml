@@ -11,7 +11,7 @@ plugins:
   - serverless-cloudflare-workers
   
 functions:
-  WelcomeToTheEdge:
+  welcome-to-the-edge:
     worker: welcome
     script: worker
     events:
