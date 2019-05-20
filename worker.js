@@ -20,6 +20,8 @@ async function handle(event) {
 }
 
 async function getBody(country) {
-    let body = '<a href="/"><h1>The Edge</h1></a><img src="https://www.countryflags.io/' + country + '/shiny/64.png" />'
+    let countryDetails = await fetch('https://restcountries.eu/rest/v2/alpha/' + country)
+
+    let body = '<a href="/"><h1>The Edge</h1></a><img src="' + countryDetails.flag + '" />'
     return body
 }
