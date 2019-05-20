@@ -19,8 +19,7 @@ async function handle(event) {
 }
 
 function getBody(country) {
-    let body = '<html><head><title>The Edge</title></head><h1>The Edge</h1>'
-    body = body + '<img src="https://www.countryflags.io/' + country + '/shiny/64.png" />'
-    body = body + '</html>'
+    let body = '<h1>The Edge</h1><img src="https://www.countryflags.io/' + country + '/shiny/64.png" />'
+
     return body
 }
