@@ -12,7 +12,7 @@ plugins:
   
 functions:
   WelcomeToTheEdge:
-    worker: Welcome
+    worker: welcome
     script: worker
     events:
      - http:
