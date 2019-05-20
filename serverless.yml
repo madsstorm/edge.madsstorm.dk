@@ -11,8 +11,8 @@ plugins:
   - serverless-cloudflare-workers
   
 functions:
-  worker:
-    worker: worker
+  edge-worker:
+    worker: edge-worker
     script: worker
     events:
      - http:
