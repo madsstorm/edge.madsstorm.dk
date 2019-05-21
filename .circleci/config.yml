@@ -1,0 +1,5 @@
+jobs:
+  build:
+    steps:
+      - run: npm install
+      - run: npm test
