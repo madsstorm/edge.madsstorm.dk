@@ -1,3 +1,4 @@
+import { Router } from 'service-worker-router'
 import { getLocalBody } from './localContent'
 
 addEventListener('fetch', event => {
