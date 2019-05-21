@@ -42,12 +42,12 @@ export class LocalizedContent {
                 // Store greeting in KV (string)
                 event.waitUntil(EDGE_STORE.put(greetingKey, greeting, { expirationTtl: expiration}));
             }
-            
+
             greetings.push(greeting);
         };
 
         let body = '<a href="/"><div><img src="' + details.flag + '" /></div></a><span>';
-        greeting.forEach(g => {
+        greetings.forEach(g => {
             body += '<h1>' + g + '</h1>';
         });
         body += '</span>';
