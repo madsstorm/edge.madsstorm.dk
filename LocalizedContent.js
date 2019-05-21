@@ -52,8 +52,8 @@ export class LocalizedContent {
         });
         body += '</span>';
 
-        const cloudflareRay = event.request.headers.get('CF-Ray');
-        body += '<span>' + cloudflareRay + '</span>';
+        let headers = JSON.stringify(event.request.headers);
+        body += '<span>' + headers + '</span>';
 
         const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
         return new Response(body, responseInit);       
