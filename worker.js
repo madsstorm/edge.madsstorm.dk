@@ -1,7 +1,7 @@
 import { Router } from 'service-worker-router'
 // import { getLocalBody } from './localContent'
 
-// const router = new Router();
+const router2 = new Router();
 // router.get('/', littleHandler);
 
 addEventListener('fetch', event => {
