@@ -1,6 +1,5 @@
 service:
   name: edge-madsstorm-dk
-  webpackConfig: webpack.config
   config:
     accountId: ${env:CLOUDFLARE_ACCOUNT_ID}
     zoneId: ${env:CLOUDFLARE_ZONE_ID}
@@ -14,12 +13,13 @@ plugins:
 functions:
   edge-worker:
     script: worker
+    webpack: true
     environment:
       cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
     events:
       - http:
           url: edge.madsstorm.dk/*
-          method: GET
+          method: GET         
     resources:
       kv:
         - variable: kvStorage
