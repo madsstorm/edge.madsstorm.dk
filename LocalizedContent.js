@@ -17,19 +17,17 @@ export class LocalizedContent {
         }
 
         let greetings = [];
-
-        details.languages.forEach(lang => {           
-            const greetingKey = 'greeting-' + lang;           
+        for(const language of details.languages) {
+            const languageCode = language.iso639_1;
+            const greetingKey = 'greeting-' + languageCode;
 
             // Try get greeting from KV (string)
             let greeting = await EDGE_STORE.get(greetingKey);
 
             if(!greeting) {
                 greeting = 'Hello';
-                let language = details.languages[0].iso639_1;
-
-                if(language != 'en'){
-                    let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + language + '&source=en&key=' + cloudTranslationApiKey;
+                if(languageCode != 'en'){
+                    let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + languageCode + '&source=en&key=' + cloudTranslationApiKey;
 
                     let translationResponse = await fetch(translationUrl);
                     let translation = await translationResponse.json();
@@ -44,8 +42,9 @@ export class LocalizedContent {
                 // Store greeting in KV (string)
                 event.waitUntil(EDGE_STORE.put(greetingKey, greeting, { expirationTtl: expiration}));
             }
+            
             greetings.push(greeting);
-        });
+        };
 
         let body = '<a href="/"><div><img src="' + details.flag + '" /></div></a><span>';
         greeting.forEach(g => {
