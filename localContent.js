@@ -41,4 +41,4 @@ export async function getLocalBody(country) {
 
     let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /></div></a><span>' + greeting + '</span>';
     return body;
-};
+}

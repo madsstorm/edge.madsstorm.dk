@@ -1,5 +1,6 @@
 service:
   name: edge-madsstorm-dk
+  webpackConfig: webpack.config
   config:
     accountId: ${env:CLOUDFLARE_ACCOUNT_ID}
     zoneId: ${env:CLOUDFLARE_ZONE_ID}
