@@ -52,8 +52,7 @@ export class LocalizedContent {
         });
         body += '</span>';
 
-        let headers = JSON.stringify(event.request.headers);
-        body += '<span>' + headers + '</span>';
+        body += '<span>' + event.request.cf.colo + '</span>';
 
         const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
         return new Response(body, responseInit);       
