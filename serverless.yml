@@ -22,5 +22,5 @@ functions:
           method: GET         
     resources:
       kv:
-        - variable: kvStorage
+        - variable: EDGE_STORE
           namespace: edgeNamespace

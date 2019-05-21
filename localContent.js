@@ -1,10 +1,11 @@
-export async function getLocalBody(country) {
+export async function getLocalBody(event) {
     const expiration = 3600;
+    const country = event.request.headers.get('CF-IPCountry')
     const countryKey = 'country' + country;
     const greetingKey = 'greeting' + country;
 
     // Try get country details from KV (JSON string) as object
-    let details = await kvStorage.get(countryKey, "json");
+    let details = await EDGE_STORE.get(countryKey, "json");
 
     if(!details) {
         // "Expensive" external call that we want to cache in KV
@@ -12,11 +13,11 @@ export async function getLocalBody(country) {
         details = await response.json();
 
         // Store country details in KV (JSON string)
-        kvStorage.put(countryKey, JSON.stringify(details), { expirationTtl: expiration});
+        event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(details), { expirationTtl: expiration}));
     }
 
     // Try get greeting from KV (string)
-    let greeting = await kvStorage.get(greetingKey);
+    let greeting = await EDGE_STORE.get(greetingKey);
 
     if(!greeting) {
         greeting = 'Hello';
@@ -36,7 +37,7 @@ export async function getLocalBody(country) {
         }
 
         // Store greeting in KV (string)
-        kvStorage.put(greetingKey, greeting, { expirationTtl: expiration});
+        event.waitUntil(EDGE_STORE.put(greetingKey, greeting, { expirationTtl: expiration}));
     }
 
     let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /></div></a><span>' + greeting + '</span>';
