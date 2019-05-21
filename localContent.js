@@ -40,6 +40,6 @@ export async function getLocalBody(event) {
         event.waitUntil(EDGE_STORE.put(greetingKey, greeting, { expirationTtl: expiration}));
     }
 
-    let body = '<a href="/"><div><img src="' + details.flag + '" style="width:100px;" /></div></a><span>' + greeting + '</span>';
+    let body = '<a href="/"><div><img src="' + details.flag + '" /></div></a><span><h1>' + greeting + '</h1></span>';
     return body;
 }
