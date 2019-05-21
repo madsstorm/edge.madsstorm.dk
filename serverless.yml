@@ -12,7 +12,6 @@ plugins:
   
 functions:
   edge-worker:
-    worker: edge-worker
     script: worker
     environment:
       cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
