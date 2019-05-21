@@ -46,13 +46,13 @@ export class LocalizedContent {
             greetings.push(greeting);
         };
 
-        let body = '<a href="/"><div><img src="' + details.flag + '" /></div></a><span>';
+        let body = '';
         greetings.forEach(g => {
             body += '<h1>' + g + '</h1>';
         });
         body += '</span>';
-
-        body += '<span>' + event.request.cf.colo + '</span>';
+        body += '<span>(Data center: ' + event.request.cf.colo + ')</span>';
+        body += '<a href="/"><div><img src="' + details.flag + '" /></div></a><span>';
 
         const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
         return new Response(body, responseInit);       
