@@ -1,25 +1,20 @@
 import { Router } from 'service-worker-router'
-// import { getLocalBody } from './localContent'
-
-const router2 = new Router();
-router2.get('/', littleHandler);
+import { getLocalBody } from './localContent'
 
 addEventListener('fetch', event => {
-    // event.passThroughOnException();
     const router = new Router();
-    router.get('/', littleHandler);
+    router.get('/', localizedHandler);
+    router.get('/hello', helloHandler);
 
     router.handleEvent(event)   
-    // event.respondWith(handle(event));
 })
 
-const littleHandler = async ({ request, params }) => {
+const helloHandler = async ({ request, params }) => {
     return new Response('Hello')
 }
 
-// async function handle(event) {
-//     const body = await getLocalBody(event);
-//     const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
-
-//     return new Response(body, responseInit);
-// };
+const localizedHandler = async ({ event }) => {
+    const body = await getLocalBody(event);
+    const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
+    return new Response(body, responseInit);
+}
