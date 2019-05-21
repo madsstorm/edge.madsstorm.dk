@@ -1,4 +1,5 @@
 import { getLocalBody } from './localContent'
+import { Router } from 'service-worker-router'
 
 addEventListener('fetch', event => {
     event.passThroughOnException();
