@@ -1,9 +1,11 @@
 import { Router } from 'service-worker-router'
-import { localizedHandler } from './localContent'
+import LocalizedContent from './LocalizedContent'
 
 addEventListener('fetch', event => {
-    const router = new Router();
-    router.get('/', localizedHandler);   
+    const localized = new LocalizedContent();
+
+    const router = new Router();   
+    router.get('/', localized.CreateResponse);   
     router.get('/*', notFoundHandler);
 
     router.handleEvent(event)   
