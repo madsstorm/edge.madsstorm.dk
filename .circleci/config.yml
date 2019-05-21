@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
-    working_directory: ~/edge
     steps:
+      - checkout
       - run: npm install
       - run: npm test
