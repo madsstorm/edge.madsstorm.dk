@@ -1,4 +1,10 @@
-export async function getLocalBody(event) {
+export async function localizedHandler({event}) {
+    const body = await getLocalBody(event);
+    const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
+    return new Response(body, responseInit);
+}
+
+async function getLocalBody(event) {
     const expiration = 3600;
     const country = event.request.headers.get('CF-IPCountry')
     const countryKey = 'country' + country;
