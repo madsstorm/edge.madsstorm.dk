@@ -1,14 +1,7 @@
 export class LocalizedContent {
-
     async CreateResponse({event}) {
-        // const body = await getLocalBody(event);
-        // const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
-        // return new Response(body, responseInit);
-    // }
-
-    // async getLocalBody(event) {
         const expiration = 3600;
-        const country = event.request.headers.get('CF-IPCountry')
+        const country = event.request.headers.get('CF-IPCountry');
         const countryKey = 'country' + country;
         const greetingKey = 'greeting' + country;
 
@@ -51,8 +44,6 @@ export class LocalizedContent {
         let body = '<a href="/"><div><img src="' + details.flag + '" /></div></a><span><h1>' + greeting + '</h1></span>';
 
         const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
-        return new Response(body, responseInit);
-
-        
+        return new Response(body, responseInit);       
     }
 }

@@ -8,7 +8,7 @@ addEventListener('fetch', event => {
     router.get('/', localized.CreateResponse);   
     router.get('/*', notFoundHandler);
 
-    router.handleEvent(event)   
+    router.handleEvent(event);
 })
 
 const notFoundHandler = async ({ request, params }) => {
