@@ -4,7 +4,6 @@
   "description": "edge.madsstorm.dk",
   "main": "worker.js",
   "scripts": {
-    "ci": "echo \"No CI\"",
     "test": "echo \"No tests\""
   },
   "repository": {
