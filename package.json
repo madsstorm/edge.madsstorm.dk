@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/madsstorm/edge.madsstorm.dk#readme",
   "dependencies": {
-    "serverless": "^1.42.3",
+    "serverless": "^1.43.0",
     "serverless-cloudflare-workers": "^1.2.0"
   }
 }
