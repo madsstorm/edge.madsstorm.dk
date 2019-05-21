@@ -1,11 +1,14 @@
 import { Router } from 'service-worker-router'
 // import { getLocalBody } from './localContent'
 
-const router = new Router();
-router.get('/', littleHandler);
+// const router = new Router();
+// router.get('/', littleHandler);
 
 addEventListener('fetch', event => {
     // event.passThroughOnException();
+    const router = new Router();
+    router.get('/', littleHandler);
+
     router.handleEvent(event)   
     // event.respondWith(handle(event));
 })
