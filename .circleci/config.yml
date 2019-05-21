@@ -1,5 +1,7 @@
 jobs:
   build:
+    docker:
+      - image: circleci/node:10
     steps:
       - run: npm install
       - run: npm test
