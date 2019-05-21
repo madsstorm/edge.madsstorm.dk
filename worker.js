@@ -1,5 +1,5 @@
 import { Router } from 'service-worker-router'
-import LocalizedContent from './LocalizedContent'
+import { LocalizedContent } from './LocalizedContent'
 
 addEventListener('fetch', event => {
     const localized = new LocalizedContent();
