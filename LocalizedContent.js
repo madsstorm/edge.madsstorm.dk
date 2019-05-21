@@ -1,3 +1,5 @@
+export { LocalizedContent }
+
 class LocalizedContent {
     async CreateResponse({event}) {
         const body = await getLocalBody(event);
