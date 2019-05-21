@@ -12,7 +12,7 @@ plugins:
   
 functions:
   edge-worker:
-    script: ./src/worker
+    script: worker
     webpack: true
     environment:
       cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
