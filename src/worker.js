@@ -1,4 +1,4 @@
-import { getLocalBody } from './localContent'
+import { getLocalBody } from 'localContent'
 
 /**
  * Cloudflare workers implement the service worker spec
