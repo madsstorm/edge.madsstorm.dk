@@ -11,10 +11,13 @@ export class LocalizedContent {
         if(countryDetails == null) {
             // "Expensive" external call that we want to cache in KV
             let response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country);
-            countryDetails = await response.json();
 
-            // Store country details in KV (JSON string)
-            event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(countryDetails), { expirationTtl: expiration}));
+            if(response.ok) {
+                countryDetails = await response.json();
+
+                // Store country details in KV (JSON string)
+                event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(countryDetails), { expirationTtl: expiration}));
+            }
         }
 
         // Try get datacenter name from KV (string)
@@ -22,12 +25,14 @@ export class LocalizedContent {
         if(datacenterName == null || datacenterName == '') {
             // "Expensive" external call that we want to cache in KV
             let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
-            let datacenterDetails = await response.json();
+            
+            if(response.ok) {
+                let datacenterDetails = await response.json();
+                datacenterName = datacenterDetails.response.name;
 
-            datacenterName = datacenterDetails.response.name;
-                
-            // Store datacenterName in KV (string)
-            event.waitUntil(EDGE_STORE.put(datacenterKey, datacenterName, { expirationTtl: expiration}));
+                // Store datacenterName in KV (string)
+                event.waitUntil(EDGE_STORE.put(datacenterKey, datacenterName, { expirationTtl: expiration}));
+            }
         }      
         
         let greetings = [];
@@ -40,15 +45,22 @@ export class LocalizedContent {
 
             if(greeting == null || greeting == '') {
                 greeting = 'Hello from ' + datacenterName;
-                if(languageCode != 'en'){
-                    let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + languageCode + '&source=en&key=' + cloudTranslationApiKey;
+                if(languageCode != 'en') {
 
+                    let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + languageCode + '&source=en&key=' + cloudTranslationApiKey;
                     let translationResponse = await fetch(translationUrl);
-                    let translation = await translationResponse.json();
-                    if(translation) {
-                        let translatedGreeting = translation.data.translations[0].translatedText;
-                        if(translatedGreeting) {
-                            greeting = translatedGreeting;
+
+                    if(translationResponse.ok) {
+
+                        let translation = await translationResponse.json();
+
+                        if(translation) {
+
+                            let translatedGreeting = translation.data.translations[0].translatedText;
+
+                            if(translatedGreeting) {
+                                greeting = translatedGreeting;
+                            }
                         }
                     }
                 }
