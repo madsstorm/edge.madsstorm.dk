@@ -50,9 +50,8 @@ export class LocalizedContent {
         greetings.forEach(g => {
             body += '<h1>' + g + '</h1>';
         });
-        body += '</span>';
+        body += '<a href="/"><div><img src="' + details.flag + '" /></div></a>';
         body += '<span>(Data center: ' + event.request.cf.colo + ')</span>';
-        body += '<a href="/"><div><img src="' + details.flag + '" /></div></a><span>';
 
         const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
         return new Response(body, responseInit);       
