@@ -24,7 +24,14 @@ export class LocalizedContent {
         let datacenterName = await EDGE_STORE.get(datacenterKey);
         if(datacenterName == null || datacenterName == '') {
             // "Expensive" external call that we want to cache in KV
-            let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);           
+            let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
+
+
+            
+return new Response(JSON.stringify(response));
+
+
+
             if(response != null && response.ok) {
                 let datacenterDetails = await response.json();
                 if(datacenterDetails != null) {
