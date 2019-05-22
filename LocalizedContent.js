@@ -51,13 +51,9 @@ export class LocalizedContent {
                     let translationResponse = await fetch(translationUrl);
 
                     if(translationResponse.ok) {
-
                         let translation = await translationResponse.json();
-
                         if(translation) {
-
                             let translatedGreeting = translation.data.translations[0].translatedText;
-
                             if(translatedGreeting) {
                                 greeting = translatedGreeting;
                             }
