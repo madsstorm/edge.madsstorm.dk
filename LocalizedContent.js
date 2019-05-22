@@ -11,12 +11,12 @@ export class LocalizedContent {
         if(countryDetails == null) {
             // "Expensive" external call that we want to cache in KV
             let response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country);
-
-            if(response.ok) {
+            if(response != null && response.ok) {
                 countryDetails = await response.json();
-
-                // Store country details in KV (JSON string)
-                event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(countryDetails), { expirationTtl: expiration}));
+                if(countryDetails != null) {
+                    // Store country details in KV (JSON string)
+                    event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(countryDetails), { expirationTtl: expiration}));
+                }
             }
         }
 
@@ -24,14 +24,17 @@ export class LocalizedContent {
         let datacenterName = await EDGE_STORE.get(datacenterKey);
         if(datacenterName == null || datacenterName == '') {
             // "Expensive" external call that we want to cache in KV
-            let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
-            
-            if(response.ok) {
+            let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);           
+            if(response != null && response.ok) {
                 let datacenterDetails = await response.json();
-                datacenterName = datacenterDetails.response.name;
+                if(datacenterDetails != null) {
+                    datacenterName = datacenterDetails.response.name;
 
-                // Store datacenterName in KV (string)
-                event.waitUntil(EDGE_STORE.put(datacenterKey, datacenterName, { expirationTtl: expiration}));
+                    if(datacenterName != null && datacenterName != '') {
+                        // Store datacenterName in KV (string)
+                        event.waitUntil(EDGE_STORE.put(datacenterKey, datacenterName, { expirationTtl: expiration}));
+                    }
+                }
             }
         }      
         
@@ -50,17 +53,16 @@ export class LocalizedContent {
                     let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + languageCode + '&source=en&key=' + cloudTranslationApiKey;
                     let translationResponse = await fetch(translationUrl);
 
-                    if(translationResponse.ok) {
+                    if(translationResponse != null && translationResponse.ok) {
                         let translation = await translationResponse.json();
-                        if(translation) {
+                        if(translation != null && translation != '') {
                             let translatedGreeting = translation.data.translations[0].translatedText;
-                            if(translatedGreeting) {
+                            if(translatedGreeting != null && translatedGreeting != '') {
                                 greeting = translatedGreeting;
                             }
                         }
                     }
                 }
-
                 // Store greeting in KV (string)
                 event.waitUntil(EDGE_STORE.put(greetingKey, greeting, { expirationTtl: expiration}));
             }
