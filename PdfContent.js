@@ -1,4 +1,4 @@
-export class LocalizedContent {
+export class PdfContent {
     async CreateResponse({event}) {
 
         const responseInit = { headers: {'content-type':'application/pdf'} };
