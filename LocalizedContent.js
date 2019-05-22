@@ -18,7 +18,7 @@ export class LocalizedContent {
         }
 
 
-        return new Response(datacenterCode + JSON.stringify(countryDetails));
+        return new Response(iataCodesApiKey + ' -- ' + datacenterCode + JSON.stringify(countryDetails));
 
 
         // Try get datacenter name from KV (string)
@@ -32,8 +32,8 @@ export class LocalizedContent {
                 
             // Store dataCenterName in KV (string)
             event.waitUntil(EDGE_STORE.put(dataCenterKey, datacenterName, { expirationTtl: expiration}));
-        }
-
+        }      
+        
         let greetings = [];
         for(const language of countryDetails.languages) {
             const languageCode = language.iso639_1;
