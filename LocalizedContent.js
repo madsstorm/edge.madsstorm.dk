@@ -1,6 +1,6 @@
 export class LocalizedContent {
     async CreateResponse({event}) {
-        const expiration = 3600;
+        const expiration = 120;
         const country = event.request.headers.get('CF-IPCountry');
         const countryKey = 'country-' + country;
         const datacenterCode = event.request.cf.colo;
