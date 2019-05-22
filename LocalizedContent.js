@@ -22,11 +22,6 @@ export class LocalizedContent {
 
         if(!datacenterName) {
             // "Expensive" external call that we want to cache in KV
-
-
-return new Response('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
-
-
             let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
             let dataCenterDetails = await response.json();
 
