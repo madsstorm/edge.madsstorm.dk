@@ -26,7 +26,7 @@ export class LocalizedContent {
         let greetings = [];
         for(const language of countryDetails.languages) {
             const languageCode = language.iso639_1;
-            const greetingKey = 'greeting-' + languageCode;
+            const greetingKey = 'greeting--' + languageCode;
 
             // Try get greeting from KV (string)
             let greeting = await EDGE_STORE.get(greetingKey);
