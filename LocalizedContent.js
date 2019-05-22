@@ -4,7 +4,6 @@ export class LocalizedContent {
         const country = event.request.headers.get('CF-IPCountry');
         const countryKey = 'country-' + country;
         const datacenterCode = event.request.cf.colo;
-        const datacenterKey = 'datacenter-' + datacenterCode;
 
         // Try get country details from KV (JSON string) as object
         let countryDetails = await EDGE_STORE.get(countryKey, "json");
@@ -19,24 +18,6 @@ export class LocalizedContent {
                 }
             }
         }
-
-        // Try get datacenter name from KV (string)
-        let datacenterName = await EDGE_STORE.get(datacenterKey);
-        if(datacenterName == null || datacenterName == '') {
-            // "Expensive" external call that we want to cache in KV
-            let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
-            if(response != null && response.ok) {
-                let datacenterDetails = await response.json();
-                if(datacenterDetails != null) {
-                    datacenterName = datacenterDetails.response[0].name;
-
-                    if(datacenterName != null && datacenterName != '') {
-                        // Store datacenterName in KV (string)
-                        event.waitUntil(EDGE_STORE.put(datacenterKey, datacenterName, { expirationTtl: expiration}));
-                    }
-                }
-            }
-        }      
         
         let greetings = [];
         for(const language of countryDetails.languages) {
@@ -47,7 +28,21 @@ export class LocalizedContent {
             let greeting = await EDGE_STORE.get(greetingKey);
 
             if(greeting == null || greeting == '') {
-                greeting = 'Hello from ' + datacenterName;
+                greeting = 'Hello';
+                let datacenterName = '';
+
+                let iataResponse = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
+                if(iataResponse != null && iataResponse.ok) {
+                    let datacenterDetails = await iataResponse.json();
+                    if(datacenterDetails != null) {
+                        datacenterName = datacenterDetails.response[0].name;
+                    }
+                }
+
+                if(datacenterName != '') {
+                    greeting = 'Hello from ' + datacenterName;    
+                }
+
                 if(languageCode != 'en') {
 
                     let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + languageCode + '&source=en&key=' + cloudTranslationApiKey;
