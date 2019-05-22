@@ -22,7 +22,7 @@ export class LocalizedContent {
 
         if(!datacenterName) {
 
-            return new Response('checkpoint');
+            return new Response('checkpoint-' + datacenterCode);
             // return new Response(dataCenterCode);
 
             // return new Response('&code=' + dataCenterCode);
