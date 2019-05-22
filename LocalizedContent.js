@@ -5,6 +5,10 @@ export class LocalizedContent {
         const countryKey = 'country-' + country;
         const datacenterCode = event.request.cf.colo;
 
+
+        let responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
+
+
         // Try get country details from KV (JSON string) as object
         let countryDetails = await EDGE_STORE.get(countryKey, "json");
         if(countryDetails == null) {
@@ -26,6 +30,10 @@ export class LocalizedContent {
 
             // Try get greeting from KV (string)
             let greeting = await EDGE_STORE.get(greetingKey);
+
+
+            responseInit.headers.storedGreeting = greeting;
+            
 
             if(greeting == null || greeting == '') {
                 greeting = 'Hello';
@@ -70,8 +78,7 @@ export class LocalizedContent {
             body += '<h1>' + g + '</h1>';
         });
         body += '<a href="/"><div><img src="' + countryDetails.flag + '" /></div></a>';
-
-        const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
+        
         return new Response(body, responseInit);       
     }
 }
