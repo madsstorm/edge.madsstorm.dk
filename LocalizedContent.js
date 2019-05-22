@@ -5,10 +5,6 @@ export class LocalizedContent {
         const countryKey = 'country-' + country;
         const datacenterCode = event.request.cf.colo;
 
-
-        let responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
-
-
         // Try get country details from KV (JSON string) as object
         let countryDetails = await EDGE_STORE.get(countryKey, "json");
         if(countryDetails == null) {
@@ -26,14 +22,10 @@ export class LocalizedContent {
         let greetings = [];
         for(const language of countryDetails.languages) {
             const languageCode = language.iso639_1;
-            const greetingKey = 'greeting--' + languageCode;
+            const greetingKey = 'greeting-' + languageCode;
 
             // Try get greeting from KV (string)
             let greeting = await EDGE_STORE.get(greetingKey);
-
-
-            responseInit.headers.storedGreeting = greeting;
-
 
             if(greeting == null || greeting == '') {
                 greeting = 'Hello';
@@ -41,17 +33,8 @@ export class LocalizedContent {
 
                 let iataResponse = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
 
-
-                responseInit.headers.iataResponse = JSON.stringify(iataResponse);
-
-
                 if(iataResponse != null && iataResponse.ok) {
                     let datacenterDetails = await iataResponse.json();
-
-                    responseInit.headers.datacenterDetails = JSON.stringify(datacenterDetails);
-
-
-
                     if(datacenterDetails != null) {
                         datacenterName = datacenterDetails.response[0].name;
                     }
@@ -88,7 +71,8 @@ export class LocalizedContent {
             body += '<h1>' + g + '</h1>';
         });
         body += '<a href="/"><div><img src="' + countryDetails.flag + '" /></div></a>';
-        
+ 
+        const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
         return new Response(body, responseInit);       
     }
 }
