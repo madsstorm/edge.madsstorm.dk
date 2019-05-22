@@ -32,6 +32,8 @@ temp += 'check2-';
 
             temp += 'check3-';
 
+return new Response(temp);
+
             return new Response('URL=' + 'https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
 
             temp += 'check4-';
