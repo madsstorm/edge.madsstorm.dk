@@ -17,16 +17,24 @@ export class LocalizedContent {
             event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(countryDetails), { expirationTtl: expiration}));
         }
 
+
+let temp = 'check1-';
+
+
         // Try get datacenter name from KV (string)
         let datacenterName = await EDGE_STORE.get(dataCenterKey);
+
+temp += 'check2-';
+
 
         if(!datacenterName) {
             // "Expensive" external call that we want to cache in KV
 
-
+            temp += 'check3-';
 
             return new Response('URL=' + 'https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
 
+            temp += 'check4-';
 
 
 
