@@ -3,7 +3,7 @@ export class LocalizedContent {
         const expiration = 3600;
         const country = event.request.headers.get('CF-IPCountry');
         const countryKey = 'country-' + country;
-        const datacenterCode = JSON.stringify(event.request.cf.colo);
+        const datacenterCode = event.request.cf.colo;
         const datacenterKey = 'datacenter-' + datacenterCode;
 
         // Try get country details from KV (JSON string) as object
