@@ -4,7 +4,7 @@ export class LocalizedContent {
         const country = event.request.headers.get('CF-IPCountry');
         const countryKey = 'country-' + country;
         const datacenterCode = JSON.stringify(event.request.cf.colo);
-        const dataCenterKey = 'datacenter-' + datacenterCode;
+        const datacenterKey = 'datacenter-' + datacenterCode;
 
         // Try get country details from KV (JSON string) as object
         let countryDetails = await EDGE_STORE.get(countryKey, "json");
@@ -18,17 +18,17 @@ export class LocalizedContent {
         }
 
         // Try get datacenter name from KV (string)
-        let datacenterName = await EDGE_STORE.get(dataCenterKey);
+        let datacenterName = await EDGE_STORE.get(datacenterKey);
 
         if(!datacenterName) {
             // "Expensive" external call that we want to cache in KV
-            let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
-            let dataCenterDetails = await response.json();
+            let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
+            let datacenterDetails = await response.json();
 
-            datacenterName = dataCenterDetails.response.name;
+            datacenterName = datacenterDetails.response.name;
                 
-            // Store dataCenterName in KV (string)
-            event.waitUntil(EDGE_STORE.put(dataCenterKey, datacenterName, { expirationTtl: expiration}));
+            // Store datacenterName in KV (string)
+            event.waitUntil(EDGE_STORE.put(datacenterKey, datacenterName, { expirationTtl: expiration}));
         }      
         
         let greetings = [];
