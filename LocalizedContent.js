@@ -27,12 +27,8 @@ export class LocalizedContent {
             let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
             if(response != null && response.ok) {
                 let datacenterDetails = await response.json();
-
-                return new Response(JSON.stringify(datacenterDetails));
-
-
                 if(datacenterDetails != null) {
-                    datacenterName = datacenterDetails.response.name;
+                    datacenterName = datacenterDetails.response[0].name;
 
                     if(datacenterName != null && datacenterName != '') {
                         // Store datacenterName in KV (string)
