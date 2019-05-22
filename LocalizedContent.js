@@ -33,15 +33,25 @@ export class LocalizedContent {
 
 
             responseInit.headers.storedGreeting = greeting;
-            
+
 
             if(greeting == null || greeting == '') {
                 greeting = 'Hello';
                 let datacenterName = '';
 
                 let iataResponse = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
+
+
+                responseInit.headers.iataResponse = JSON.stringify(iataResponse);
+
+
                 if(iataResponse != null && iataResponse.ok) {
                     let datacenterDetails = await iataResponse.json();
+
+                    responseInit.headers.datacenterDetails = JSON.stringify(datacenterDetails);
+
+
+
                     if(datacenterDetails != null) {
                         datacenterName = datacenterDetails.response[0].name;
                     }
