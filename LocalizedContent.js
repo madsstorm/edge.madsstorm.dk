@@ -3,7 +3,7 @@ export class LocalizedContent {
         const expiration = 3600;
         const country = event.request.headers.get('CF-IPCountry');
         const countryKey = 'country-' + country;
-        const datacenterCode = event.request.cf.colo;
+        const datacenterCode = JSON.stringify(event.request.cf.colo);
         const dataCenterKey = 'datacenter-' + datacenterCode;
 
         // Try get country details from KV (JSON string) as object
@@ -21,15 +21,6 @@ export class LocalizedContent {
         let datacenterName = await EDGE_STORE.get(dataCenterKey);
 
         if(!datacenterName) {
-
-            //return new Response(datacenterCode);
-            // return new Response(dataCenterCode);
-
-             return new Response('&code=' + dataCenterCode);
-            // return new Response('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey);
-// return new Response('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
-
-
             // "Expensive" external call that we want to cache in KV
             let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
             let dataCenterDetails = await response.json();
