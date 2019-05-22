@@ -32,7 +32,7 @@ temp += 'check2-';
 
             temp += 'check3-';
 
-return new Response(temp+iataCodesApiKey+'-'+datacenterCode);
+return new Response(temp+iataCodesApiKey+'-'+datacenterCode+ 'https://iatacodes.org/api/v6/airports?api_key=');
 
             return new Response('URL=' + 'https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
 
