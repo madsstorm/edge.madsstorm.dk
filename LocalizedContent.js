@@ -6,6 +6,8 @@ export class LocalizedContent {
         const datacenterCode = event.request.cf.colo;
         const dataCenterKey = 'datacenter-' + datacenterCode;
 
+        return new Response(datacenterCode);
+
         // Try get country details from KV (JSON string) as object
         let countryDetails = await EDGE_STORE.get(countryKey, "json");
         if(!countryDetails) {
