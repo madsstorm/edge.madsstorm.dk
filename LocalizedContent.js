@@ -3,21 +3,35 @@ export class LocalizedContent {
         const expiration = 3600;
         const country = event.request.headers.get('CF-IPCountry');
         const countryKey = 'country-' + country;
+        const datacenterCode = event.request.cf.colo;
+        const dataCenterKey = 'datacenter-' + datacenterCode;
 
         // Try get country details from KV (JSON string) as object
-        let details = await EDGE_STORE.get(countryKey, "json");
-
-        if(!details) {
+        let countryDetails = await EDGE_STORE.get(countryKey, "json");
+        if(!countryDetails) {
             // "Expensive" external call that we want to cache in KV
             let response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country);
-            details = await response.json();
+            countryDetails = await response.json();
 
             // Store country details in KV (JSON string)
-            event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(details), { expirationTtl: expiration}));
+            event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(countryDetails), { expirationTtl: expiration}));
+        }
+
+        // Try get datacenter name from KV (string)
+        let datacenterName = await EDGE_STORE.get(dataCenterKey);
+        if(!datacenterName) {
+            // "Expensive" external call that we want to cache in KV
+            let response = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + dataCenterCode);
+            let dataCenterDetails = await response.json();
+
+            datacenterName = dataCenterDetails.response.name;
+                
+            // Store dataCenterName in KV (string)
+            event.waitUntil(EDGE_STORE.put(dataCenterKey, datacenterName, { expirationTtl: expiration}));
         }
 
         let greetings = [];
-        for(const language of details.languages) {
+        for(const language of countryDetails.languages) {
             const languageCode = language.iso639_1;
             const greetingKey = 'greeting-' + languageCode;
 
@@ -25,7 +39,7 @@ export class LocalizedContent {
             let greeting = await EDGE_STORE.get(greetingKey);
 
             if(!greeting) {
-                greeting = 'Hello';
+                greeting = 'Hello from ' + datacenterName;
                 if(languageCode != 'en'){
                     let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + languageCode + '&source=en&key=' + cloudTranslationApiKey;
 
@@ -50,8 +64,7 @@ export class LocalizedContent {
         greetings.forEach(g => {
             body += '<h1>' + g + '</h1>';
         });
-        body += '<a href="/"><div><img src="' + details.flag + '" /></div></a>';
-        body += '<span>(Data center: ' + event.request.cf.colo + ')</span>';
+        body += '<a href="/"><div><img src="' + countryDetails.flag + '" /></div></a>';
 
         const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
         return new Response(body, responseInit);       

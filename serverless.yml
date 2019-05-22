@@ -16,6 +16,7 @@ functions:
     webpack: true
     environment:
       cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
+      iataCodesApiKey: ${env:IATA_CODES_API_KEY}
     events:
       - http:
           url: edge.madsstorm.dk/*
