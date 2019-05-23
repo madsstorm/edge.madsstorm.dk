@@ -2,14 +2,14 @@ export class LocalizedContent {
     async CreateResponse({event}) {
         const expiration = 3600;
         const country = event.request.headers.get('CF-IPCountry');
-        const countryKey = 'country-' + country;
+        const countryKey = `country-${country}`;
         const datacenterCode = event.request.cf.colo;
 
         // Try get country details from KV (JSON string) as object
         let countryDetails = await EDGE_STORE.get(countryKey, "json");
         if(countryDetails == null) {
             // "Expensive" external call that we want to cache in KV
-            let response = await fetch('https://restcountries.eu/rest/v2/alpha/' + country);
+            let response = await fetch(`https://restcountries.eu/rest/v2/alpha/${country}`);
             if(response != null && response.ok) {
                 countryDetails = await response.json();
                 if(countryDetails != null) {
@@ -22,7 +22,7 @@ export class LocalizedContent {
         let greetings = [];
         for(const language of countryDetails.languages) {
             const languageCode = language.iso639_1;
-            const greetingKey = 'greeting-' + languageCode + datacenterCode;
+            const greetingKey = `greeting-${languageCode}-${datacenterCode}`;
 
             // Try get greeting from KV (string)
             let greeting = await EDGE_STORE.get(greetingKey);
@@ -31,7 +31,7 @@ export class LocalizedContent {
                 greeting = 'Hello';
                 let datacenterName = '';
 
-                let iataResponse = await fetch('https://iatacodes.org/api/v6/airports?api_key=' + iataCodesApiKey + '&code=' + datacenterCode);
+                let iataResponse = await fetch(`https://iatacodes.org/api/v6/airports?api_key=${iataCodesApiKey}&code=${datacenterCode}`);
 
                 if(iataResponse != null && iataResponse.ok) {
                     let datacenterDetails = await iataResponse.json();
@@ -41,12 +41,12 @@ export class LocalizedContent {
                 }
 
                 if(datacenterName != '') {
-                    greeting = 'Hello from ' + datacenterName;    
+                    greeting = `Hello from ${datacenterName}`;
                 }
 
                 if(languageCode != 'en') {
 
-                    let translationUrl = 'https://translation.googleapis.com/language/translate/v2?q=' + greeting + '&source=en&target=' + languageCode + '&source=en&key=' + cloudTranslationApiKey;
+                    let translationUrl = `https://translation.googleapis.com/language/translate/v2?q=${greeting}&source=en&target=${languageCode}&key=${cloudTranslationApiKey}`;
                     let translationResponse = await fetch(translationUrl);
 
                     if(translationResponse != null && translationResponse.ok) {
@@ -67,10 +67,10 @@ export class LocalizedContent {
         };
 
         let body = '';
-        greetings.forEach(g => {
-            body += '<h1>' + g + '</h1>';
+        greetings.forEach(greet => {
+            body += `<h1>${greet}</h1>`;
         });
-        body += '<a href="/"><div><img src="' + countryDetails.flag + '" /></div></a>';
+        body += `<a href="/"><div><img src="${countryDetails.flag}" /></div></a>`;
  
         const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
         return new Response(body, responseInit);       
