@@ -1,9 +1,15 @@
 export class LocalizedContent {
     async CreateResponse({event}) {
         const expiration = 3600;
-        const country = event.request.headers.get('CF-IPCountry');
+        let country = 'DK';
+        if(event && event.request && event.request.cf) {
+            country = event.request.cf.country;
+        }
         const countryKey = `country-${country}`;
-        const datacenterCode = event.request.cf.colo;
+        let datacenterCode = 'AMS';
+        if(event && event.request && event.request.cf) {
+            datacenterCode = event.request.cf.colo;
+        }
 
         // Try get country details from KV (JSON string) as object
         let countryDetails = await EDGE_STORE.get(countryKey, "json");
