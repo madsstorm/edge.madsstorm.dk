@@ -12,5 +12,5 @@ addEventListener('fetch', event => {
 })
 
 const notFoundHandler = async ({ request, params }) => {
-    return new Response('Page not found :(')
+    return new Response('Page not found :o(')
 }
