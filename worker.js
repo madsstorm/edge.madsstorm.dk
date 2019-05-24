@@ -14,6 +14,6 @@ addEventListener('fetch', event => {
 
 const notFoundHandler = async ({ request, params }) => {
     const logger = new SentryLogger();
-    let response = await logger.promisifiedSentryLog('Page not found');   
-    return new Response('Page not found :o(' + JSON.stringify(response));
+     await logger.promisifiedSentryLog('Page not found');   
+    return new Response('Page not found :o(');
 }
