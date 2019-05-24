@@ -1,5 +1,5 @@
 export class SentryLogger {
-    async promisifiedSentryLog(ex) {
+    async promisifiedSentryLog(message) {
 
         const data = {
             project: sentryProjectId,
@@ -7,7 +7,7 @@ export class SentryLogger {
             platform: "javascript",
             exception: {
                 values: [
-                    { type: "Error", value: ((ex) && (ex.message)) ? ex.message : 'Unknown' }
+                    { type: "Error", value: message }
                 ]
             }
         }
