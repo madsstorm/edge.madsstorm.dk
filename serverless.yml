@@ -17,9 +17,6 @@ functions:
     environment:
       cloudTranslationApiKey: ${env:CLOUD_TRANSLATION_API_KEY}
       iataCodesApiKey: ${env:IATA_CODES_API_KEY}
-      sentryProjectId: ${env:SENTRY_PROJECT_ID}
-      sentryAPIKey: ${env:SENTRY_API_KEY}
-      sentrySecretKey: ${env:SENTRY_SECRET_KEY}
     events:
       - http:
           url: edge.madsstorm.dk/*
