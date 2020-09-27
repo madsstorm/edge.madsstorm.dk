@@ -1,4 +1,4 @@
-# edge.madsstorm.dk
+# [edge.madsstorm.dk](https://edge.madsstorm.dk)
 
 [![Build Status](https://travis-ci.org/madsstorm/edge.madsstorm.dk.svg?branch=master)](https://travis-ci.org/madsstorm/edge.madsstorm.dk)
 [![CircleCI](https://circleci.com/gh/madsstorm/edge.madsstorm.dk.svg?style=svg)](https://circleci.com/gh/madsstorm/edge.madsstorm.dk)
