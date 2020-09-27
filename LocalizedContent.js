@@ -34,7 +34,7 @@ export class LocalizedContent {
             let greeting = await EDGE_STORE.get(greetingCacheKey);
 
             if(greeting == null || greeting == '') {
-                greeting = `Hello from '${datacenterCode}'`;
+                greeting = `Hello ${countryDetails.name}. Greetings from ${datacenterCode} data center`;
 
                 if(languageCode != 'en') {
 
