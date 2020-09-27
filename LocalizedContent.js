@@ -62,7 +62,7 @@ export class LocalizedContent {
         greetings.forEach(greet => {
             body += `<h1>${greet}</h1>`;
         });
-        body += `<a href="/"><div><img src="${countryDetails.flag}" /></div></a>`;
+        body += `<a href="/"><div><img src="${countryDetails.flag} alt="${countryDetails.name}" /></div></a>`;
  
         const responseInit = { headers: {'content-type':'text/html; charset=UTF-8'} };
         return new Response(body, responseInit);       
