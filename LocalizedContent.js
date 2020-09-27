@@ -5,14 +5,14 @@ export class LocalizedContent {
         if(event && event.request && event.request.cf) {
             country = event.request.cf.country;
         }
-        const countryKey = `country-${country}`;
+        const countryCacheKey = `country-${country}`;
         let datacenterCode = 'AMS';
         if(event && event.request && event.request.cf) {
             datacenterCode = event.request.cf.colo;
         }
 
         // Try get country details from KV (JSON string) as object
-        let countryDetails = await EDGE_STORE.get(countryKey, "json");
+        let countryDetails = await EDGE_STORE.get(countryCacheKey, "json");
         if(countryDetails == null) {
             // "Expensive" external call that we want to cache in KV
             let response = await fetch(`https://restcountries.eu/rest/v2/alpha/${country}`);
@@ -20,7 +20,7 @@ export class LocalizedContent {
                 countryDetails = await response.json();
                 if(countryDetails != null) {
                     // Store country details in KV (JSON string)
-                    event.waitUntil(EDGE_STORE.put(countryKey, JSON.stringify(countryDetails), { expirationTtl: expiration}));
+                    event.waitUntil(EDGE_STORE.put(countryCacheKey, JSON.stringify(countryDetails), { expirationTtl: expiration}));
                 }
             }
         }
@@ -28,27 +28,13 @@ export class LocalizedContent {
         let greetings = [];
         for(const language of countryDetails.languages) {
             const languageCode = language.iso639_1;
-            const greetingKey = `greeting-${languageCode}-${datacenterCode}`;
+            const greetingCacheKey = `greeting-${languageCode}-${datacenterCode}`;
 
             // Try get greeting from KV (string)
-            let greeting = await EDGE_STORE.get(greetingKey);
+            let greeting = await EDGE_STORE.get(greetingCacheKey);
 
             if(greeting == null || greeting == '') {
-                greeting = 'Hello';
-                let datacenterName = '';
-
-                let iataResponse = await fetch(`https://iatacodes.org/api/v6/airports?api_key=${iataCodesApiKey}&code=${datacenterCode}`);
-
-                if(iataResponse != null && iataResponse.ok) {
-                    let datacenterDetails = await iataResponse.json();
-                    if(datacenterDetails != null) {
-                        datacenterName = datacenterDetails.response[0].name;
-                    }
-                }
-
-                if(datacenterName != '') {
-                    greeting = `Hello from ${datacenterName}`;
-                }
+                greeting = `Hello from '${datacenterCode}'`;
 
                 if(languageCode != 'en') {
 
@@ -66,7 +52,7 @@ export class LocalizedContent {
                     }
                 }
                 // Store greeting in KV (string)
-                event.waitUntil(EDGE_STORE.put(greetingKey, greeting, { expirationTtl: expiration}));
+                event.waitUntil(EDGE_STORE.put(greetingCacheKey, greeting, { expirationTtl: expiration}));
             }
 
             greetings.push(greeting);
